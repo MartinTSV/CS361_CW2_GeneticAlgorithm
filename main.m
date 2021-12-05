@@ -1,7 +1,7 @@
-%string_controller = [1 1 3 2 7 6 3 1 5 1 8 4 1 7 6 3 4 6 3 1 1 1 5 8 4 4 9 2 9 3];
+%string_controller = [STATEONE 1 1 3 2 7 6 3 1 5 1 STATETWO 8 4 1 7 6 3 4 6 3 1 STATETHREE 1 1 5 8 4 4 9 2 9 3];
 %Tuning
 Ngen = 100;
-Nchromosomes = 6;
+Nchromosomes = 20;
 %Generate 5 random chromosomes
 string_controller = zeros(Nchromosomes,30);
 for i=1:5
@@ -41,36 +41,28 @@ for z=1:Ngen
     end
     
     new_chromosomes = zeros(Nchromosomes,30);
+    
     %Creating offsprings - 2-Point Crossover
-        
-        c1 = selected_parents(1,:);
-        c2 = selected_parents(2,:);
-        c3 = selected_parents(3,:);
-        c4 = selected_parents(4,:);
-        c5 = selected_parents(5,:);
-        c6 = selected_parents(6,:);
-        
+    i=1;
+    while i < size(new_chromosomes,1)
+     
+        c1 = selected_parents(i,:);
+        c2 = selected_parents(i+1,:);
+
         chromosomeLength = length(c1);
 
-        pos1 = 3;
-        pos2 = 15;
+        pos1 = 11;
+        pos2 = 21;
 
         new_chromosome1 = [c1(1:pos1-1) c2(pos1:pos2 - 1) c1(pos2:chromosomeLength)];
         new_chromosome2 = [c2(1:pos1-1) c1( pos1:pos2-1) c2(pos2:chromosomeLength )];
-        
-        new_chromosome3 = [c3(1:pos1-1) c4(pos1:pos2 - 1) c3(pos2:chromosomeLength)];
-        new_chromosome4 = [c4(1:pos1-1) c3( pos1:pos2-1) c4(pos2:chromosomeLength )];
-        
-        new_chromosome5 = [c5(1:pos1-1) c6(pos1:pos2 - 1) c5(pos2:chromosomeLength)];
-        new_chromosome6 = [c6(1:pos1-1) c5( pos1:pos2-1) c6(pos2:chromosomeLength )];
 
-        new_chromosomes(1,:) = new_chromosome1;
-        new_chromosomes(2,:) = new_chromosome2;
-        new_chromosomes(3,:) = new_chromosome3;
-        new_chromosomes(4,:) = new_chromosome4;
-        new_chromosomes(5,:) = new_chromosome5;
-        new_chromosomes(6,:) = new_chromosome6;
-
+        new_chromosomes(i,:) = new_chromosome1;
+        new_chromosomes(i+1,:) = new_chromosome2;
+        
+        i = i+2;
+    end
+    
     %Mutating Chromosomes
     for i=1:size(new_chromosomes,1)
         temp_random = randi(30);
